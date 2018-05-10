@@ -1,0 +1,27 @@
+import requests
+import re
+import time
+import os
+
+while True:
+    try:
+        z = input("请输入想要查询的单词(退出请输入q)：")
+        if z == "q":
+            break
+        os.system('cls')
+        url = "http://dict.cn/%s" %z
+        html = requests.get(url).text
+        a = []
+        data = re.findall(r'<div class="layout detail">(.*?)</div>',html,re.S)
+        for i in data:
+            a.append(i.replace("\n","").replace("\t","").replace("<span>","<li>").replace("</span>","").replace("<bdo>","").replace("</bdo>","").replace('<ol slider="2">',"").replace("</li>","").replace("</ol>","").split("<li>"))
+            b = len(a[0])
+        for i in range(b):
+            print(a[0][i])
+            print("")
+
+    except:
+        print("抱歉！未找到您需要的单词。请输入其他单词试试")
+        time.sleep(2)
+        os.system('cls')
+
